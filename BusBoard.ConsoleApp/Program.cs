@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using GeoCoordinatePortable;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using RestSharp.Authenticators;
@@ -24,7 +25,7 @@ namespace BusBoard.ConsoleApp
         postCode = "NW51TL";
 
         var coordinates = GetCoordinates(postCode);
-        var nearbyStops = GetNearbyBusStops(coordinates).Take(2).ToList();
+        var nearbyStops = GetNearbyBusStops(coordinates);
         foreach (var stop in nearbyStops)
         {
           Console.WriteLine($"Bus Stop Times for: {stop.CommonName}");
@@ -49,10 +50,9 @@ namespace BusBoard.ConsoleApp
     static List<StopPoint> GetNearbyBusStops(Coordinates coordinates)
     {
       var client = new RestClient("https://api.tfl.gov.uk");
-      var request = new RestRequest($"StopPoint/?stopTypes=NaptanPublicBusCoachTram&radius=200&modes=bus" +
+      var request = new RestRequest($"StopPoint/?stopTypes=NaptanPublicBusCoachTram&radius=400&modes=bus" +
                                     $"&lat={coordinates.Result.Latitude}&lon={coordinates.Result.Longitude}");
-      var nearbyStops = client.Execute<StopPointResult>(request).Data.StopPoints;
-
+      var nearbyStops = client.Execute<StopPointResult>(request).Data.StopPoints.OrderBy(stops=>stops.Distance).Take(2).ToList();
       return nearbyStops;
     }
 

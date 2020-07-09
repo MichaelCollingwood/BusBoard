@@ -12,5 +12,7 @@ namespace BusBoard.ConsoleApp
     {
         public string NaptanId { get; set; }
         public string CommonName { get; set; }
+        public string Distance { get; set; }
+        
     }
 }
