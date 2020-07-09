@@ -16,11 +16,21 @@ namespace BusBoard.ConsoleApp
     static void Main(string[] args)
     {
       ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-      
-      Console.WriteLine("Give post-code");
-      var postcode = Console.ReadLine();
-      
-      //GetBusTimes(busStopCode);
+
+      while (true)
+      {
+        Console.WriteLine("Give post-code");
+        var postCode = Console.ReadLine();
+        postCode = "NW51TL";
+
+        var coordinates = GetCoordinates(postCode);
+        var nearbyStops = GetNearbyBusStops(coordinates).Take(2).ToList();
+        foreach (var stop in nearbyStops)
+        {
+          Console.WriteLine($"Bus Stop Times for: {stop.CommonName}");
+          GetBusTimes(stop.NaptanId);
+        }
+      }
     }
 
     static void GetBusTimes(string busStopCode)
@@ -36,17 +46,22 @@ namespace BusBoard.ConsoleApp
       }
     }
 
-    static string GetBusStopCode(string postcode)
+    static List<StopPoint> GetNearbyBusStops(Coordinates coordinates)
+    {
+      var client = new RestClient("https://api.tfl.gov.uk");
+      var request = new RestRequest($"StopPoint/?stopTypes=NaptanPublicBusCoachTram&radius=200&modes=bus" +
+                                    $"&lat={coordinates.Result.Latitude}&lon={coordinates.Result.Longitude}");
+      var nearbyStops = client.Execute<StopPointResult>(request).Data.StopPoints;
+
+      return nearbyStops;
+    }
+
+    private static Coordinates GetCoordinates(string postCode)
     {
       var client = new RestClient("https://api.postcodes.io");
-      var request = new RestRequest($"postcodes/{postcode}");
-      var postCode = client.Execute<PostCode>(request).Data;
-      
-      /*
-      var client = new RestClient("https://api.tfl.gov.uk");
-      var request = new RestRequest("StopPoint/?stopTypes=NaptanBusWayPoint&radius=1000&modes=bus&lat={}&lon={}");
-      var postCode = client.Execute<PostCode>(request).Data;
-      */
+      var request = new RestRequest($"postcodes/{postCode}");
+      var coordinates = client.Execute<Coordinates>(request).Data;
+      return coordinates;
     }
   }
 }
