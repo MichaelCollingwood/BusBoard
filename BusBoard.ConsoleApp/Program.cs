@@ -17,16 +17,16 @@ namespace BusBoard.ConsoleApp
     {
       ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
       
-      Console.WriteLine("Give bus-stop code");
-      var busStopCode = Console.ReadLine();
+      Console.WriteLine("Give post-code");
+      var postcode = Console.ReadLine();
       
-      BusTimes(busStopCode);
+      //GetBusTimes(busStopCode);
     }
 
-    static void BusTimes(string busStopCode)
+    static void GetBusTimes(string busStopCode)
     {
-      var client = new RestClient("https://api.tfl.gov.uk/StopPoint");
-      var request = new RestRequest("490008660N/Arrivals?app_id=e359379b&app_key=1c36f466bbec601c4e93d8bbfa43525e");
+      var client = new RestClient("https://api.tfl.gov.uk");
+      var request = new RestRequest($"StopPoint/{busStopCode}/Arrivals");
       var response = client.Execute<List<BusPredictions>>(request).Data;
 
       var NextBuses = response.OrderBy(bus=>bus.TimeToStation).Take(5).ToList();
@@ -34,6 +34,19 @@ namespace BusBoard.ConsoleApp
       {
         Console.WriteLine(busTime.ToString());
       }
+    }
+
+    static string GetBusStopCode(string postcode)
+    {
+      var client = new RestClient("https://api.postcodes.io");
+      var request = new RestRequest($"postcodes/{postcode}");
+      var postCode = client.Execute<PostCode>(request).Data;
+      
+      /*
+      var client = new RestClient("https://api.tfl.gov.uk");
+      var request = new RestRequest("StopPoint/?stopTypes=NaptanBusWayPoint&radius=1000&modes=bus&lat={}&lon={}");
+      var postCode = client.Execute<PostCode>(request).Data;
+      */
     }
   }
 }
