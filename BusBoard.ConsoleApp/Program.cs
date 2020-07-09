@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -27,8 +28,12 @@ namespace BusBoard.ConsoleApp
       var client = new RestClient("https://api.tfl.gov.uk/StopPoint");
       var request = new RestRequest("490008660N/Arrivals?app_id=e359379b&app_key=1c36f466bbec601c4e93d8bbfa43525e");
       var response = client.Execute<List<BusPredictions>>(request).Data;
-      
-      Console.WriteLine(response.First().DestinationName);
+
+      var NextBuses = response.OrderBy(bus=>bus.TimeToStation).Take(5).ToList();
+      foreach (var busTime in NextBuses)
+      {
+        Console.WriteLine(busTime.ToString());
+      }
     }
   }
 }
