@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BusBoard.ConsoleApp
 {
@@ -11,5 +12,11 @@ namespace BusBoard.ConsoleApp
     {
         public double Longitude { get; set; }
         public double Latitude { get; set; }
+    }
+
+    public class Check
+    {
+        public int status { get; set; }
+        public string result { get; set; }
     }
 }

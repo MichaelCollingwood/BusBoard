@@ -14,15 +14,15 @@ namespace BusBoard.ConsoleApp
         public string CommonName { get; set; }
         public string Distance { get; set; }
         
-        public List<string> TimeTable()
+        public List<List<string>> TimeTable()
         {
-            var timeTable = new List<string>();
-            timeTable.Add($"{CommonName}");
-            
+            var timeTable = new List<List<string>>();
+
             var tflApi = new TflApi();
             foreach (var busPrediction in tflApi.GetBusTimes(NaptanId))
             {
-                timeTable.Add($"{busPrediction.LineName}: {busPrediction.DestinationName} {busPrediction.TimeToStation / 60} minutes");
+                var busListing = new List<string>() { CommonName, busPrediction.LineName, busPrediction.DestinationName, (busPrediction.TimeToStation / 60).ToString() };
+                timeTable.Add(busListing);
             }
             return timeTable;
         }

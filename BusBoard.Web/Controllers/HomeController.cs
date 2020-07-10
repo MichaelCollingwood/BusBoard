@@ -4,6 +4,8 @@ using System.Web.Mvc;
 using BusBoard.ConsoleApp;
 using BusBoard.Web.Models;
 using BusBoard.Web.ViewModels;
+using Microsoft.Ajax.Utilities;
+using WebGrease.Css.Extensions;
 
 namespace BusBoard.Web.Controllers
 {
@@ -17,20 +19,24 @@ namespace BusBoard.Web.Controllers
     [HttpGet]
     public ActionResult BusInfo(PostcodeSelection selection)
     {
-      // Add some properties to the BusInfo view model with the data you want to render on the page.
-      // Write code here to populate the view model with info from the APIs.
       var postCodeApi = new PostCodeApi();
-      var coordinates = postCodeApi.GetCoordinates(selection.Postcode);
-        
-      var tflApi = new TflApi();
-      var nearbyStops = tflApi.GetNearbyStops(coordinates);
+      if (postCodeApi.CheckPostCode(selection.Postcode))
+      {
+        var coordinates = postCodeApi.GetCoordinates(selection.Postcode);
 
-      var BusStop1TimeTable = nearbyStops[0].TimeTable();
-      var BusStop2TimeTable = nearbyStops[1].TimeTable();
+        var tflApi = new TflApi();
+        var nearbyStops = tflApi.GetNearbyStops(coordinates);
+        var BusStop1TimeTable = nearbyStops[0].TimeTable();
+        var BusStop2TimeTable = nearbyStops[1].TimeTable();
 
-      // Then modify the view (in Views/Home/BusInfo.cshtml) to render upcoming buses.
-      var info = new BusInfo(selection.Postcode, BusStop1TimeTable, BusStop2TimeTable);
-      return View(info);
+        var info = new BusInfo(selection.Postcode, BusStop1TimeTable, BusStop2TimeTable);
+        return View(info);
+      }
+      else
+      {
+        ViewBag.Message = "Postcode not recognised";
+        return View("ErrorPage");
+      }
     }
 
     public ActionResult About()

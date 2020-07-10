@@ -7,7 +7,7 @@ namespace BusBoard.Web.ViewModels
 {
   public class BusInfo
   {
-    public BusInfo(string postCode, List<string> BusStop1TimeTable, List<string> BusStop2TimeTable)
+    public BusInfo(string postCode, List<List<string>> BusStop1TimeTable, List<List<string>> BusStop2TimeTable)
     {
       PostCode = postCode;
       BusStop1 = BusStop1TimeTable;
@@ -15,7 +15,7 @@ namespace BusBoard.Web.ViewModels
     }
 
     public string PostCode { get; set; }
-    public List<string> BusStop1 { get; set; }
-    public List<string> BusStop2 { get; set; }
+    public List<List<string>> BusStop1 { get; set; }
+    public List<List<string>> BusStop2 { get; set; }
   }
 }

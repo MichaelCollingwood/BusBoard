@@ -1,27 +1,77 @@
 ﻿@model BusBoard.Web.ViewModels.BusInfo
 @{
-  ViewBag.Title = "Bus Information";
+  ViewBag.Title = "Bus Timetables";
 }
-
-<h2>BusInfo</h2>
-
+<h1>@ViewBag.Title</h1>
 <div class="row">
-    <p>You entered postcode @Model.PostCode</p>
-    <p>The two next closest bus stops timetables are:</p>
-    <p>@Model.BusStop1[0]</p>
-    <ul>
-        <li>@Model.BusStop1[1]</li>
-        <li>@Model.BusStop1[2]</li>
-        <li>@Model.BusStop1[3]</li>
-        <li>@Model.BusStop1[4]</li>
-        <li>@Model.BusStop1[5]</li>
-    </ul>
-    <p>@Model.BusStop2[0]</p>
-    <ul>
-        <li>@Model.BusStop2[1]</li>
-        <li>@Model.BusStop2[2]</li>
-        <li>@Model.BusStop2[3]</li>
-        <li>@Model.BusStop2[4]</li>
-        <li>@Model.BusStop2[5]</li>
-    </ul>
+    <h2>@Model.BusStop1[0][0]</h2>
+
+    <table>
+        <tr>
+            <th>Bus Service</th>
+            <th>Destination</th>
+            <th>Time to Arrival</th>
+        </tr>
+        <tr>
+            <td>@Model.BusStop1[0][1]</td>
+            <td>@Model.BusStop1[0][2]</td>
+            <td>@Model.BusStop1[0][3]</td>
+        </tr>
+        <tr>
+            <td>@Model.BusStop1[1][1]</td>
+            <td>@Model.BusStop1[1][2]</td>
+            <td>@Model.BusStop1[1][3]</td>
+        </tr>
+        <tr>
+            <td>@Model.BusStop1[2][1]</td>
+            <td>@Model.BusStop1[2][2]</td>
+            <td>@Model.BusStop1[2][3]</td>
+        </tr>
+        <tr>
+            <td>@Model.BusStop1[3][1]</td>
+            <td>@Model.BusStop1[3][2]</td>
+            <td>@Model.BusStop1[3][3]</td>
+        </tr>
+        <tr>
+            <td>@Model.BusStop1[4][1]</td>
+            <td>@Model.BusStop1[4][2]</td>
+            <td>@Model.BusStop1[4][3]</td>
+        </tr>
+    </table>
+
+    <h2>@Model.BusStop2[0][0]</h2>
+
+    <table>
+        <tr>
+            <th>Bus Service</th>
+            <th>Destination</th>
+            <th>Time to Arrival</th>
+        </tr>
+        <tr>
+            <td>@Model.BusStop2[0][1]</td>
+            <td>@Model.BusStop2[0][2]</td>
+            <td>@Model.BusStop2[0][3]</td>
+        </tr>
+        <tr>
+            <td>@Model.BusStop2[1][1]</td>
+            <td>@Model.BusStop2[1][2]</td>
+            <td>@Model.BusStop2[1][3]</td>
+        </tr>
+        <tr>
+            <td>@Model.BusStop2[2][1]</td>
+            <td>@Model.BusStop2[2][2]</td>
+            <td>@Model.BusStop2[2][3]</td>
+        </tr>
+        <tr>
+            <td>@Model.BusStop2[3][1]</td>
+            <td>@Model.BusStop2[3][2]</td>
+            <td>@Model.BusStop2[3][3]</td>
+        </tr>
+        <tr>
+            <td>@Model.BusStop1[4][1]</td>
+            <td>@Model.BusStop1[4][2]</td>
+            <td>@Model.BusStop1[4][3]</td>
+        </tr>
+    </table>
 </div>
+<meta http-equiv="refresh" content="30">

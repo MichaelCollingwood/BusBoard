@@ -11,7 +11,6 @@ namespace BusBoard.ConsoleApp
         RestClient client = new RestClient(clientUrl);
         public List<BusPredictions> GetBusTimes(string busStopCode)
         {
-            
             var request = new RestRequest($"StopPoint/{busStopCode}/Arrivals");
             var response = client.Execute<List<BusPredictions>>(request).Data;
             var NextBuses = response.OrderBy(bus=>bus.TimeToStation).Take(5).ToList();
