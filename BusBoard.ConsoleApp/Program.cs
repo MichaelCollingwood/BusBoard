@@ -32,7 +32,10 @@ namespace BusBoard.ConsoleApp
         foreach (var stop in nearbyStops)
         {
           Console.WriteLine($"Bus Stop Times for: {stop.CommonName}");
-          tflApi.GetBusTimes(stop.NaptanId);
+          foreach (var busTime in tflApi.GetBusTimes(stop.NaptanId))
+          {
+            Console.WriteLine(busTime.ToString());
+          }
         }
       }
     }

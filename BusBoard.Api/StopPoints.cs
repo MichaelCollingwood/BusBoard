@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BusBoard.ConsoleApp
 {
@@ -13,5 +14,20 @@ namespace BusBoard.ConsoleApp
         public string CommonName { get; set; }
         public string Distance { get; set; }
         
+        // function here to get bus times in a list
+        public List<string> TimeTable()
+        {
+            var timeTable = new List<string>();
+            timeTable.Add($"{CommonName}");
+            
+            var tflApi = new TflApi();
+            foreach (var busPrediction in tflApi.GetBusTimes(NaptanId))
+            {
+                timeTable.Add($"{busPrediction.LineName}: {busPrediction.DestinationName}, {busPrediction.TimeToStation}");
+            }
+            //Console.WriteLine(string.Join("\n", timeTable));
+            
+            return timeTable;
+        }
     }
 }
