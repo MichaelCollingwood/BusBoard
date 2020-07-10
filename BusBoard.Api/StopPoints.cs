@@ -14,7 +14,6 @@ namespace BusBoard.ConsoleApp
         public string CommonName { get; set; }
         public string Distance { get; set; }
         
-        // function here to get bus times in a list
         public List<string> TimeTable()
         {
             var timeTable = new List<string>();
@@ -23,10 +22,8 @@ namespace BusBoard.ConsoleApp
             var tflApi = new TflApi();
             foreach (var busPrediction in tflApi.GetBusTimes(NaptanId))
             {
-                timeTable.Add($"{busPrediction.LineName}: {busPrediction.DestinationName}, {busPrediction.TimeToStation}");
+                timeTable.Add($"{busPrediction.LineName}: {busPrediction.DestinationName} {busPrediction.TimeToStation / 60} minutes");
             }
-            //Console.WriteLine(string.Join("\n", timeTable));
-            
             return timeTable;
         }
     }
